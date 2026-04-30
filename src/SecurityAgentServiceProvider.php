@@ -28,6 +28,7 @@ class SecurityAgentServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/security-agent.php', 'security-agent');
+        $this->mergeConfigFrom(__DIR__ . '/../config/lsa.php', 'lsa');
 
         $this->app->singleton(ThreatAgent::class, function ($app) {
             return new ThreatAgent(
@@ -41,6 +42,7 @@ class SecurityAgentServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../config/security-agent.php' => config_path('security-agent.php'),
+            __DIR__ . '/../config/lsa.php'            => config_path('lsa.php'),
         ], 'security-agent-config');
 
         $this->publishes([
@@ -48,12 +50,16 @@ class SecurityAgentServiceProvider extends ServiceProvider
         ], 'security-agent-migrations');
 
         $this->publishes([
-            __DIR__ . '/../resources/views/' => resource_path('views/vendor/security-agent'),
-        ], 'security-agent-views');
+            __DIR__ . '/../resources/views/' => resource_path('views/vendor/lsa'),
+        ], 'lsa-views');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'security-agent');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lsa');
+
+        if (config('lsa.admin.enabled', true)) {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
+        }
 
         if ($this->app->runningInConsole()) {
             $this->commands([MonitorLogs::class]);

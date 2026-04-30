@@ -75,7 +75,7 @@ class ThreatAgent
     public function analyze(string $ip, string $patternType, string $rawExcerpt): array
     {
         $apiKey = config('security-agent.anthropic_api_key');
-        $model  = config('security-agent.anthropic_model', 'claude-sonnet-4-6');
+        $model  = config('lsa.model', 'claude-sonnet-4-6');
 
         $systemPrompt = <<<PROMPT
 You are a security analyst agent. You have been given a suspicious log excerpt from a Laravel application.

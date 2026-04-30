@@ -5,7 +5,7 @@ Orchestrates the Claude AI agent loop — invoking Claude with tool use to resea
 ## Requirements
 
 ### Requirement: Claude agent invocation with tool use
-The system SHALL invoke the Claude API with a structured system prompt and the suspicious log batch, providing tools the agent can call to research and respond to the threat. The system SHALL check per-minute and daily rate limits before making any Claude API call and SHALL skip invocation (logging a warning) if either limit is reached.
+The system SHALL invoke the Claude API with a structured system prompt and the suspicious log batch, providing tools the agent can call to research and respond to the threat. The system SHALL check per-minute and daily rate limits before making any Claude API call and SHALL skip invocation (logging a warning) if either limit is reached. The system SHALL read the active model name from config (`lsa.model`) so that the admin panel can update it at runtime.
 
 #### Scenario: Agent invoked with log context
 - **WHEN** `AnalyzeThreat` job executes and rate limits are not exceeded
@@ -22,6 +22,10 @@ The system SHALL invoke the Claude API with a structured system prompt and the s
 #### Scenario: Agent completes reasoning
 - **WHEN** Claude responds with a text completion (no further tool calls)
 - **THEN** the system saves the agent's summary and confidence score to `lsa_security_events`
+
+#### Scenario: Agent uses configured model
+- **WHEN** `AnalyzeThreat` job executes
+- **THEN** the system reads `config('lsa.model')` (not a hardcoded string) as the model identifier sent to the Claude API
 
 ### Requirement: Tool — get_ip_history
 The system SHALL provide a tool that returns the count and most recent timestamps of prior security events for a given IP.
