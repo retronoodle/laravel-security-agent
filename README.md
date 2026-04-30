@@ -92,29 +92,25 @@ LSA_ADMIN_PATH=security-dashboard
 
 ## Blocklist Middleware (Optional)
 
-To enforce the IP blocklist on incoming requests, add this to your host app's `app/Http/Middleware`:
+The package ships a ready-made middleware. To enforce the IP blocklist on incoming requests, register it in `app/Http/Kernel.php`:
 
 ```php
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Carbon;
+use Timmonaghan\SecurityAgent\Http\Middleware\BlocklistMiddleware;
 
-public function handle($request, $next)
-{
-    $ip = $request->ip();
-    $blocked = DB::table('lsa_ip_blocklist')
-        ->where('ip_address', $ip)
-        ->where('expires_at', '>', Carbon::now())
-        ->exists();
+// Add to the $middleware array for global enforcement:
+protected $middleware = [
+    // ...
+    BlocklistMiddleware::class,
+];
 
-    if ($blocked) {
-        abort(403, 'Your IP has been blocked due to suspicious activity.');
-    }
-
-    return $next($request);
-}
+// Or add to $middlewareGroups['web'] to apply only to web routes:
+protected $middlewareGroups = [
+    'web' => [
+        // ...
+        BlocklistMiddleware::class,
+    ],
+];
 ```
-
-Register it in `app/Http/Kernel.php` as needed.
 
 ## Rollback
 
