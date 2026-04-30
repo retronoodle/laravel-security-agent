@@ -1,0 +1,15 @@
+schema: spec-driven
+
+context: |
+  This is a standalone Laravel package (Composer installable, Option A).
+  Tech stack: PHP 8, Laravel 8+, Blade, Laravel Mail, Laravel Queue, Laravel Scheduler.
+  The package provides AI-powered security log monitoring via the Claude API (tool use).
+  Installable via `composer require` — ships with publishable config, migrations, and views.
+  MVP only: keep scope tight, structure clean for future extension.
+  Queue: sync driver in MVP. No Pushy. No project-specific ApiComm library.
+  AI: Claude API via raw HTTP (Guzzle) — no Anthropic PHP SDK assumed available yet.
+
+rules:
+  tasks:
+    - MVP scope only — no stretch goals or future-proofing tasks
+    - Each task should be small and independently completable
