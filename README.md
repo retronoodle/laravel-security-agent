@@ -5,7 +5,7 @@ AI-powered threat detection for Laravel applications. Monitors logs for suspicio
 ## Requirements
 
 - PHP 8.1+
-- Laravel 9, 10, or 11
+- Laravel 9, 10, 11, or 12
 - Guzzle 7+
 - An Anthropic API key
 
