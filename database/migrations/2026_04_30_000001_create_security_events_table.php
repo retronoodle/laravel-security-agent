@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('security_events', function (Blueprint $table) {
+        Schema::create('lsa_security_events', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address', 45);
             $table->string('pattern_type', 50);
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('security_events');
+        Schema::dropIfExists('lsa_security_events');
     }
 };

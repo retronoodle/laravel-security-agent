@@ -39,12 +39,14 @@ class LogParser
 
         $handle = fopen($logPath, 'r');
         fseek($handle, $offset);
-        $lines = [];
-        while (($line = fgets($handle)) !== false) {
-            $lines[] = rtrim($line);
+        $buffer = '';
+        while (! feof($handle)) {
+            $buffer .= fread($handle, 8192);
         }
         $newOffset = ftell($handle);
         fclose($handle);
+
+        $lines = array_map('rtrim', explode("\n", $buffer));
 
         Cache::forever(self::OFFSET_CACHE_KEY, $newOffset);
 
@@ -105,7 +107,9 @@ class LogParser
 
     private function extractIp(string $line): ?string
     {
-        if (preg_match('/\b(\d{1,3}(?:\.\d{1,3}){3})\b/', $line, $m)) {
+        $octet = '(?:25[0-5]|2[0-4]\d|[01]?\d\d?)';
+        $pattern = '/(?<![a-zA-Z\/])(\b' . $octet . '(?:\.' . $octet . '){3}\b)/';
+        if (preg_match($pattern, $line, $m)) {
             return $m[1];
         }
         return null;

@@ -1,8 +1,4 @@
-## Purpose
-
-Records and tracks all detected threat events, agent analysis results, and outcomes in a persistent store.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Security event logging
 The system SHALL record every detected threat event in a `lsa_security_events` table, including raw log context, agent analysis, outcome, and confidence score.

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('ip_blocklist', function (Blueprint $table) {
+        Schema::create('lsa_ip_blocklist', function (Blueprint $table) {
             $table->id();
             $table->string('ip_address', 45)->unique();
             $table->text('reason');
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('ip_blocklist');
+        Schema::dropIfExists('lsa_ip_blocklist');
     }
 };

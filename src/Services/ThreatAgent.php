@@ -174,7 +174,7 @@ PROMPT;
     private function toolGetIpHistory(array $input): array
     {
         $ip  = $input['ip'];
-        $row = DB::table('security_events')
+        $row = DB::table('lsa_security_events')
             ->selectRaw('COUNT(*) as event_count, MAX(created_at) as last_seen')
             ->where('ip_address', $ip)
             ->first();
@@ -192,7 +192,7 @@ PROMPT;
     private function toolGetRecentEvents(array $input): array
     {
         $limit  = min((int) ($input['limit'] ?? 20), 50);
-        $events = DB::table('security_events')
+        $events = DB::table('lsa_security_events')
             ->select(['ip_address', 'pattern_type', 'confidence', 'created_at'])
             ->orderByDesc('created_at')
             ->limit($limit)
@@ -251,7 +251,7 @@ PROMPT;
         );
 
         foreach ($adminEmails as $email) {
-            Mail::to(trim($email))->send($mailable);
+            Mail::to(trim($email))->queue($mailable);
         }
 
         $outcome = 'alerted';

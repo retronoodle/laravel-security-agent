@@ -5,7 +5,7 @@ Manages the IP blocklist — storage, expiry, and lookup interface for blocked I
 ## Requirements
 
 ### Requirement: IP blocklist storage
-The system SHALL maintain an `ip_blocklist` table that records blocked IPs with reason, confidence, blocked_by, blocked_at, and expires_at.
+The system SHALL maintain an `lsa_ip_blocklist` table that records blocked IPs with reason, confidence, blocked_by, blocked_at, and expires_at.
 
 #### Scenario: IP blocked
 - **WHEN** a block is written via the `block_ip` tool

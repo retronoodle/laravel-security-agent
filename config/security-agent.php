@@ -14,4 +14,9 @@ return [
     'anthropic_api_key' => env('ANTHROPIC_API_KEY'),
 
     'anthropic_model' => env('ANTHROPIC_MODEL', 'claude-sonnet-4-6'),
+
+    'rate_limit' => [
+        'per_minute' => (int) env('SECURITY_RATE_LIMIT_PER_MINUTE', 10),
+        'daily_max'  => (int) env('SECURITY_RATE_LIMIT_DAILY_MAX', 500),
+    ],
 ];

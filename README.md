@@ -46,7 +46,7 @@ SECURITY_ADMIN_EMAILS=admin@example.com,ops@example.com
 SECURITY_CONFIDENCE_THRESHOLD=0.85         # 0.0–1.0, default 0.85
 SECURITY_BLOCK_TTL_MINUTES=60              # default 60
 SECURITY_LOG_PATH=/path/to/storage/logs/laravel.log  # default: storage/logs/laravel.log
-SECURITY_SCHEDULE_FREQUENCY=everyMinute   # any Laravel scheduler frequency method
+SECURITY_SCHEDULE_FREQUENCY=everyMinute   # everyMinute (default), everyFiveMinutes, everyTenMinutes, everyFifteenMinutes, everyThirtyMinutes, hourly
 ```
 
 **6. Ensure the Laravel scheduler is running**

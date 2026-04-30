@@ -1,11 +1,7 @@
-## Purpose
-
-Polls the Laravel log file on a schedule, detects suspicious patterns, and dispatches threat analysis jobs.
-
-## Requirements
+## MODIFIED Requirements
 
 ### Requirement: Scheduled log polling
-The system SHALL poll the Laravel log file on a configurable schedule (default: every minute) using a Laravel Scheduler command, reading only new lines since the last poll using a byte-offset stored in the Laravel cache.
+The system SHALL poll the Laravel log file on a configurable schedule (default: every minute) using a Laravel Scheduler command, reading only new lines since the last poll using a byte-offset stored in the Laravel cache. The scheduler registration SHALL only occur when `ANTHROPIC_API_KEY` (or `security-agent.anthropic_api_key` config) is set to a non-empty value.
 
 #### Scenario: New suspicious lines detected
 - **WHEN** the scheduler runs and new log lines match a suspicious pattern
@@ -33,22 +29,3 @@ The system SHALL read new log content from the stored byte offset using chunked 
 #### Scenario: First run on large log file
 - **WHEN** the stored offset is 0 and the log file is larger than 8 KB
 - **THEN** the system streams the file in chunks without loading it entirely into memory
-
-### Requirement: Suspicious pattern detection
-The system SHALL match log lines against a configurable set of regex patterns covering common attack signatures before invoking any AI analysis.
-
-#### Scenario: SQLi probe detected
-- **WHEN** a log line contains patterns matching SQL injection attempts (e.g. `UNION SELECT`, `' OR '1'='1`)
-- **THEN** the line is flagged with pattern type `sqli` and included in the threat batch
-
-#### Scenario: Auth brute force detected
-- **WHEN** 5 or more failed login entries appear from the same IP within the polling window
-- **THEN** the batch is flagged with pattern type `auth_brute_force`
-
-#### Scenario: 404 flood detected
-- **WHEN** 10 or more 404 entries appear from the same IP within the polling window
-- **THEN** the batch is flagged with pattern type `404_flood`
-
-#### Scenario: Benign lines ignored
-- **WHEN** log lines contain no matching patterns
-- **THEN** no job is dispatched and the offset advances past those lines

@@ -9,7 +9,7 @@ class IpBlocklist
 {
     public function isBlocked(string $ip): bool
     {
-        return DB::table('ip_blocklist')
+        return DB::table('lsa_ip_blocklist')
             ->where('ip_address', $ip)
             ->where('expires_at', '>', Carbon::now())
             ->exists();
@@ -19,7 +19,7 @@ class IpBlocklist
     {
         $now = Carbon::now();
 
-        DB::table('ip_blocklist')->upsert(
+        DB::table('lsa_ip_blocklist')->upsert(
             [
                 'ip_address' => $ip,
                 'reason'     => $reason,
