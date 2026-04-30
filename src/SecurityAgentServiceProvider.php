@@ -50,12 +50,12 @@ class SecurityAgentServiceProvider extends ServiceProvider
         ], 'security-agent-migrations');
 
         $this->publishes([
-            __DIR__ . '/../resources/views/' => resource_path('views/vendor/lsa'),
+            __DIR__ . '/../resources/views/lsa/' => resource_path('views/vendor/lsa'),
         ], 'lsa-views');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'lsa');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views/lsa', 'lsa');
 
         if (config('lsa.admin.enabled', true)) {
             $this->loadRoutesFrom(__DIR__ . '/../routes/admin.php');
